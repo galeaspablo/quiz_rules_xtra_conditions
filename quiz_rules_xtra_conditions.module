@@ -13,7 +13,7 @@ function quiz_rules_xtra_conditions_rules_condition_info() {
 		'type' => 'integer',
 		'label' => t('The result id associated with a quiz result.'),
 		);
-	$actions['quiz_rules_xtra_conditions_passed_quiz'] = array(
+	$conditions['quiz_rules_xtra_conditions_passed_quiz'] = array(
 		'label' => t('Check if a quiz result had a passing score.'),
 		'group' =>  $group_default,
 		'parameter' => array(
@@ -21,7 +21,7 @@ function quiz_rules_xtra_conditions_rules_condition_info() {
 		), 
 		'base' => 'quiz_rules_xtra_conditions_passed_quiz', 
 	);
-return $actions;
+return $conditions;
 }
 
 /*
