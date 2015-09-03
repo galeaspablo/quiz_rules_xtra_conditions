@@ -21,6 +21,14 @@ function quiz_rules_xtra_conditions_rules_condition_info() {
 		), 
 		'base' => 'quiz_rules_xtra_conditions_passed_quiz', 
 	);
+	$conditions['quiz_rules_xtra_conditions_failed_quiz'] = array(
+		'label' => t('Check if a quiz result had a failing score.'),
+		'group' =>  $group_default,
+		'parameter' => array(
+			'quiz_result_id' => $rid_parameter_default,
+		), 
+		'base' => 'quiz_rules_xtra_conditions_failed_quiz', 
+	);
 return $conditions;
 }
 
@@ -32,8 +40,23 @@ function quiz_rules_xtra_conditions_passed_quiz($quiz_result_id){
 	$score = $resultQuery['score'];
 	$vid = $resultQuery['vid'];
 	$pass_rate = db_query('SELECT pass_rate FROM {quiz_node_properties} WHERE vid = :vid LIMIT 1', array(':vid' => $vid))->fetchField();
-	if($score >= $pass_rate){
-		return TRUE;
+	if(is_int($score) && is_int($pass_rate)){
+		if($score >= $pass_rate){
+			return TRUE;
+		}
+		return FALSE;	
 	}
-	return FALSE;
+}
+
+function quiz_rules_xtra_conditions_failed_quiz($quiz_result_id){
+	$resultQuery = db_query('SELECT vid, score FROM {quiz_node_results} WHERE result_id = :rid LIMIT 1', array(':rid' => $quiz_result_id))->fetchAssoc();
+	$score = $resultQuery['score'];
+	$vid = $resultQuery['vid'];
+	$pass_rate = db_query('SELECT pass_rate FROM {quiz_node_properties} WHERE vid = :vid LIMIT 1', array(':vid' => $vid))->fetchField();
+	if(is_int($score) && is_int($pass_rate)){
+		if($score <= $pass_rate){
+			return TRUE;
+		}
+		return FALSE;	
+	}
 }
