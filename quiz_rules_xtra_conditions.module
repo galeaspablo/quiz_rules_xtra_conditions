@@ -1,0 +1,38 @@
+<?php
+
+/*
+ * Implements hook_rules
+ */
+function quiz_rules_xtra_conditions_rules_condition_info() {
+	$group_default = t('Quiz Rules Xtra Conditions');
+	$nid_parameter_default = array(
+		'type' => 'integer',
+		'label' => t('The node id associated with the quiz.'),
+		);
+	$rid_parameter_default = array(
+		'type' => 'integer',
+		'label' => t('The result id associated with a quiz result.'),
+		);
+	$actions['quiz_rules_xtra_conditions_passed_quiz'] = array(
+		'label' => t('Check if a quiz result had a passing score.'),
+		'group' =>  $group_default,
+		'parameter' => array(
+			'quiz_result_id' => $rid_parameter_default,
+		), 
+		'base' => 'quiz_rules_xtra_conditions_passed_quiz', 
+	);
+}
+
+/*
+ * Callback functions
+ */
+function quiz_rules_xtra_conditions_passed_quiz($quiz_result_id){
+	$resultQuery = db_query('SELECT vid, score FROM {quiz_node_results} WHERE result_id = :rid LIMIT 1', array(':rid' => $quiz_result_id))->fetchAssoc();
+	$score = $resultQuery['score'];
+	$vid = $resultQuery['vid'];
+	$pass_rate = db_query('SELECT pass_rate FROM {quiz_node_properties} WHERE vid = :vid LIMIT 1', array(':vid' => $vid))->fetchField();
+	if($score >= $pass_rate){
+		return TRUE
+	}
+	return FALSE;
+}
