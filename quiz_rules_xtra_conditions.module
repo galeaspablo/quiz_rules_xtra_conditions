@@ -40,10 +40,8 @@ function quiz_rules_xtra_conditions_passed_quiz($quiz_result_id){
 	$score = $resultQuery['score'];
 	$vid = $resultQuery['vid'];
 	$pass_rate = db_query('SELECT pass_rate FROM {quiz_node_properties} WHERE vid = :vid LIMIT 1', array(':vid' => $vid))->fetchField();
-	if(!empty($score) && !empty($pass_rate)){
-		$score = intval($score);
-		$pass_rate = intval($pass_rate);
-	}
+	$score = intval($score);
+	$pass_rate = intval($pass_rate);
 	if(is_int($score) && is_int($pass_rate)){
 		if($score >= $pass_rate){
 			return TRUE;
@@ -57,10 +55,8 @@ function quiz_rules_xtra_conditions_failed_quiz($quiz_result_id){
 	$score = $resultQuery['score'];
 	$vid = $resultQuery['vid'];
 	$pass_rate = db_query('SELECT pass_rate FROM {quiz_node_properties} WHERE vid = :vid LIMIT 1', array(':vid' => $vid))->fetchField();
-	if(!empty($score) && !empty($pass_rate)){
-		$score = intval($score);
-		$pass_rate = intval($pass_rate);
-	}
+	$score = intval($score);
+	$pass_rate = intval($pass_rate);
 	if(is_int($score) && is_int($pass_rate)){
 		if($score <= $pass_rate){
 			return TRUE;
