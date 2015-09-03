@@ -21,6 +21,7 @@ function quiz_rules_xtra_conditions_rules_condition_info() {
 		), 
 		'base' => 'quiz_rules_xtra_conditions_passed_quiz', 
 	);
+return $actions;
 }
 
 /*
@@ -32,7 +33,7 @@ function quiz_rules_xtra_conditions_passed_quiz($quiz_result_id){
 	$vid = $resultQuery['vid'];
 	$pass_rate = db_query('SELECT pass_rate FROM {quiz_node_properties} WHERE vid = :vid LIMIT 1', array(':vid' => $vid))->fetchField();
 	if($score >= $pass_rate){
-		return TRUE
+		return TRUE;
 	}
 	return FALSE;
 }
