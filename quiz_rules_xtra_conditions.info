@@ -1,0 +1,7 @@
+name = Quiz Rulex Xtra Conditions
+description = Add extra rules conditions for the quiz module.
+core = 7.x
+version = "7.x-1-alpha"
+package = Quiz Addon
+dependencies[] = rules
+dependencies[] = quiz(7.x-5.x) 
